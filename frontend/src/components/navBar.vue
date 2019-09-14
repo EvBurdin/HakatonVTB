@@ -1,6 +1,6 @@
 <template >
-  <nav class="align-self-stretch navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="collapse navbar-collapse" id="navbarColor01">
+  <nav class="align-self-stretch navbar navbar-expand-lg navbar-dark">
+    <div class="offset-2  collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <router-link class="nav-link" to="/" @click="$event.target.classList.add('active')">
@@ -48,4 +48,11 @@ export default {
 </script>
 
 <style>
+nav {
+  background-color: #0a2896;
+  color: #fff;
+}
+.navbar-dark .navbar-nav .nav-link{
+  color: #fff;
+}
 </style>
