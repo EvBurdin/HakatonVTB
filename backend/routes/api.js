@@ -2,8 +2,8 @@ const passport = require('passport');
 const express = require('express');
 const fs = require('fs');
 const sharp = require('sharp');
-const User = require('../models/User');
 const auth = require('./auth');
+const User = require('../models/User');
 const Poll = require('../models/Poll');
 const Question = require('../models/Question');
 
@@ -59,6 +59,7 @@ router.get('/getpoll/:_id', auth, async (req, res) => {
   const poll = await Poll.find({ _id: req.params._id })
   res.json(poll);
 });
+
 router.post('/addPoll', auth, async (req, res) => {
   const { pollName, questions, users, creator, dateCreated, dateExpired
   } = req.body;
