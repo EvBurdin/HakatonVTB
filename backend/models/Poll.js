@@ -5,7 +5,7 @@ const passportLocalMongoose = require('passport-local-mongoose');
 const PollSchema = new db.Schema({
   pollName: String,
   questions: [{
-    questionId: { type: db.Schema.Types.ObjectId, ref: 'Question' }
+    questionId: { type: db.Schema.Types.ObjectId, ref: 'Question' } //наполнить
   }],
   users: [{
       userId: {
@@ -15,12 +15,11 @@ const PollSchema = new db.Schema({
   }],
   creator: {
     creatorId: { type: db.Schema.Types.ObjectId, ref: 'User' },
-    name: String,
   },
   dateCreated: { type: Date, default: new Date() },
   dateExpired: Date,
 
 });
 
-UserSchema.plugin(passportLocalMongoose);
+
 module.exports = db.model('Poll', PollSchema);

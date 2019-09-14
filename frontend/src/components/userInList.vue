@@ -1,7 +1,7 @@
 <template>
 
   <li @click="$emit('userSelected',user)">
-      {{user.name}}
+      {{user.firstName}} {{user.lastName}}
     </li>  
 </template>
 <script>

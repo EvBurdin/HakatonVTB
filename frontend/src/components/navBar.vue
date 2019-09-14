@@ -1,6 +1,6 @@
 <template >
-  <nav class="align-self-stretch navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="collapse navbar-collapse" id="navbarColor01">
+  <nav class="align-self-stretch navbar navbar-expand-lg navbar-dark">
+    <div class="offset-2  collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <router-link class="nav-link" to="/" @click="$event.target.classList.add('active')">
@@ -15,13 +15,12 @@
           <router-link class="nav-link" to="/login">Войти</router-link>
         </li>
         <li v-if="user" class="nav-item">
-          <router-link   class="nav-link" to="/gallery">Галерея</router-link>
+          <router-link class="nav-link" to="/gallery">Галерея</router-link>
         </li>
-
       </ul>
       <form class="form-inline my-2 my-lg-0">
-        <button @click="logout" v-if="user" class="mr-3 my-2 my-sm-0 btn btn-danger ">Выйти</button>
-        <p class="my-2 my-sm-0 text-white">{{user}}</p>
+        <button @click="logout" v-if="user" class="mr-3 my-2 my-sm-0 btn btn-danger">Выйти</button>
+        <p v-if="user" class="my-2 my-sm-0 text-white">{{user}}</p>
         <!--         <input class="form-control mr-sm-2" type="text" placeholder="Search" />
         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>-->
       </form>
@@ -34,7 +33,11 @@ import { mapActions } from 'vuex';
 export default {
   computed: {
     user: function() {
-      return this.$store.state.curentUser;
+      if (this.$store.state.curentUser) {
+        return `${this.$store.state.curentUser.firstName} ${this.$store.state.curentUser.lastName}`;
+      } else {
+        return ''
+      }
     },
   },
   methods: {
@@ -48,4 +51,11 @@ export default {
 </script>
 
 <style>
+nav {
+  background-color: #0a2896;
+  color: #fff;
+}
+.navbar-dark .navbar-nav .nav-link{
+  color: #fff;
+}
 </style>
