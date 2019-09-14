@@ -64,29 +64,71 @@ router.get('/getpoll/:_id', auth, async (req, res) => {
   res.json(poll);
 });
 
-router.post('/addPoll', auth, async (req, res) => {
-  const {
- pollName, questions, users, creator, dateCreated, dateExpired 
-} = req.body;
-  const questionsAtPoll = [];
-  for (let i = 0; i < questions.length; i++) {
+router.post('/addPoll', async (req, res) => {
+  const data = JSON.parse(req.body.data);
+  // console.log(req.files);
+  // путь к файлу == название голосования/название вопроса/
+  // const title = data.title; //название голосования 
+  // const massQuestion = data.questions[i]; // массив вопросов
+  // const filePath = `/${title}/${massQuestion}`;
+  // data.questions - массив вопросов
+  //data.questions[i]. for(let j = 0; j < data.agreedUsers.length ;j++) { let answer.push(data.questions[i].agreed[j]._id)}
+  // const allQuestionsAtPoll = [];
+
+  // for (let i = 0; i < data.questions.length; i++) {
+  //   console.log(`vopros [${i}] = `, data.questions[i].question);
+  //   // allQuestionsAtPoll.push(data.questions[i].question);
+
+  // }
+  const questionSummary = [];
+  // console.log(data.questions[0].question);
+  // console.log(data);
+  
+  
+  for (let i = 0; i < data.questions.length; i++) {
     const question = new Question({
-      questionName: question[i].questionName,
-      filesPath: question[i].filesPath,
-      answer: question[i].answer,
+      questionName: data.questions[i].question,
+      filesPath: `/${data.title}/${data.questions[i].question}`,
+      answer: []
     });
     await question.save();
-    FinalARR.push(question._id);
+    console.log(`[${i}] question = `,question,'/n');
+    
+    questionSummary.push(question._id);
+  }
+  // const questionId = [];
+  // for (let i = 0; i < questionSummary.length; i++) {
+  //   questionId.push(questionSummary[i])
+  // }
+
+  const allUsers = [];
+  const user = {
+    userId: [],
+    status: true,
+  }
+  for (let i = 0; i < data.agreedUsers.length; i++) {
+    const user = {
+      userId: data.agreedUsers[i]._id,
+      status: true,
+    }
+    allUsers.push(user);
   }
   const poll = new Poll({
-    pollName,
-    questions: questionsAtPoll,
-    users,
-    creator,
-    dateCreated,
-    dateExpired,
+    pollName: data.title,
+    questions: questionSummary,
+    users: allUsers,
+    // creator: data.creatorId,
+    // dateExpired: data.expiredDate,
   });
-  poll.save();
+
+  await poll.save();
+  console.log(poll);
+  let filesNames = Object.keys(req.files);
+  for(let i = 0 ; i < filesNames.length;i++){
+    const x = `/${data.title}/${data.questions[i].question}`;
+     await req.files[filesNames[i]].mv(`./backend/public${x}`);
+  }
+
 });
 
 // пример реализации загрузки файлов

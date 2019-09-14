@@ -15,7 +15,6 @@ const PollSchema = new db.Schema({
   }],
   creator: {
     creatorId: { type: db.Schema.Types.ObjectId, ref: 'User' },
-    name: String,
   },
   dateCreated: { type: Date, default: new Date() },
   dateExpired: Date,
