@@ -2,8 +2,10 @@ const passport = require('passport');
 const express = require('express');
 const fs = require('fs');
 const sharp = require('sharp');
-const User = require('../models/User');
 const auth = require('./auth');
+const User = require('../models/User');
+const Poll = require('../models/Poll');
+const Question = require('../models/Question');
 
 const router = express.Router();
 
@@ -34,6 +36,7 @@ router.post('/logout', auth, (req, res) => {
   res.send(true);
 });
 
+
 router.post('/user', auth, (req, res) => {
   console.log(`User ${req.session.passport.user} loged in`);
   res.send(req.session.passport.user);
@@ -43,6 +46,52 @@ router.post('/secret', auth, async (req, res) => {
   const images = await Image.find({ username: user });
   res.json(images);
 });
+router.get('/getusers', auth, async (req, res) => {
+  const users = await User.find();
+  res.json(users);
+});
+router.get('/userpolls/:_id', auth, async (req, res) => {
+  const userPolls = await Poll.find({ users: { usersId: req.params._id } },
+    { users: { dateCreated: { $lte: dateExpired } } });
+  res.json(userPolls);
+});
+router.get('/getpoll/:_id', auth, async (req, res) => {
+  const poll = await Poll.find({ _id: req.params._id }).
+  // populate('questionId',
+  // populate('userId')); // возможно тут populate:{path:'userId}
+  populate({
+    path:'questionId',
+    populate:{path:'userId'}
+  });
+  res.json(poll);
+});
+
+router.post('/addPoll', auth, async (req, res) => {
+  const { pollName, questions, users, creator, dateCreated, dateExpired
+  } = req.body;
+  const questionsAtPoll = [];
+  for (let i = 0; i < questions.length; i++) {
+    const question = new Question({
+      questionName: question[i].questionName,
+      filesPath: question[i].filesPath,
+      answer: question[i].answer,
+    });
+    await question.save();
+    FinalARR.push(question._id);
+  }
+  const poll = new Poll({
+    pollName,
+    questions: questionsAtPoll,
+    users,
+    creator,
+    dateCreated,
+    dateExpired,
+  });
+  poll.save();
+});
+
+
+
 // пример реализации загрузки файлов
 router.post('/images', auth, async (req, res) => {
   const data = JSON.parse(req.body.data);

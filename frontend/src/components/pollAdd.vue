@@ -35,14 +35,14 @@
             <input class="findingUser w-100" v-model="findingUser" placeholder="Добавить участников" type="text" />
             <ul id="findUser">
                 <userInList
-                  @userSelected="agreedUser.push($event)"
+                  @userSelected="agreedUsers.push($event)"
                   :key="index"
                   v-for="(user,index) in filtredUsers"
                   :user="user"
                 />
               </ul>
               <ul>
-                <li :key="index" v-for="(user,index) in agreedUser">{{user.name}}</li>
+                <li :key="index" v-for="(user,index) in agreedUsers">{{user.name}}</li>
               </ul>
               <button class="submitButton inputButton btn">Сохранить</button>
           </div>
@@ -79,7 +79,7 @@ export default {
       questions: [{ question: '', files: '' }],
       title: '',
       findingUser: '',
-      agreedUser: [],
+      agreedUsers: [],
       expiredDate: '',
       date: ""
     };
@@ -92,20 +92,40 @@ export default {
     },
     updateFiles(e) {
       let question = this.questions[e.questionId];
+
       question.files = e.files;
+      console.log(question.files.files);
     },
     addQuestion() {
       this.questions.push({ question: '', files: '' });
     },
     async addPoll() {
-      const file = this.$refs.file.files[0];
-      const fileName = this.$refs.file.files[0].name;
-      const disc = this.$refs.discription.value;
-      const image = new FormData();
-      const data = JSON.stringify({ fileName, disc });
-      image.append(this.$refs.file.files[0].name, this.$refs.file.files[0]);
-      image.append('data', data);
-      axios.post('/api/addPool', {}, { withCredentials: true });
+      let poll = new FormData();
+      const questions = this.questions;
+      const questionsList = [];
+      questions.forEach((el, index) => {
+        let question = { question: '', files: [] };
+        question.question = el.question;
+
+
+        for (let i=0;i< el.files.files.length;i++) {
+          question.files.push(el.files.files[i].name);
+          poll.append(`${index}#${el.files.files[i].name}`, el.files.files[i]);
+        }
+        questionsList.push(question);
+      });
+      let data = {
+        questions: questionsList,
+        expireDate: this.expiredDate,
+        agreedUsers: this.agreedUsers,
+        title: this.title,
+      };
+      console.log(data);
+      data=JSON.stringify(data)
+      console.log(data);
+
+      poll.append('data', data);
+      axios.post('/api/addPool', poll, { withCredentials: true });
     },
     titleChange() {
       this.$emit ('titleChanged', {title:this.title})
