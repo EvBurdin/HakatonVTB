@@ -5,6 +5,7 @@ const sharp = require('sharp');
 const User = require('../models/User');
 const auth = require('./auth');
 const Poll = require('../models/Poll');
+const Question = require('../models/Question');
 
 const router = express.Router();
 

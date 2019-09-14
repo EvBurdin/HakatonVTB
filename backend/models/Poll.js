@@ -4,11 +4,7 @@ const passportLocalMongoose = require('passport-local-mongoose');
 const PollSchema = new db.Schema({
   pollName: String,
   questions: [{
-    questionName: String,
-    filesPath: String,
-    votedUsers: [{
-      votedUsersId: { type: db.Schema.Types.ObjectId, ref: 'User' }
-    }]
+    questionId: { type: db.Schema.Types.ObjectId, ref: 'Question' }
   }],
   users: [{
     userId: { type: db.Schema.Types.ObjectId, ref: 'User' }
