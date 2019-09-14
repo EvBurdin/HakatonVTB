@@ -29,6 +29,8 @@ export default {
   },
   mounted() {
     this.userData();
+    this.$store.dispatch("getUsers")
+    this.$store.dispatch("getCurrentUser")
   },
 };
 </script>
