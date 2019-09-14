@@ -47,5 +47,6 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 db.connect('mongodb+srv://root:z1qx2wc3e@cluster0-ser1y.mongodb.net/desteny?retryWrites=true&w=majority', { useNewUrlParser: true });
 app.use('/api', apiRouter);
+
 app.listen(3000);
 console.log('server listen o port 3000');
