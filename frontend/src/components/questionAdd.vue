@@ -2,7 +2,7 @@
   <div class="row newQuestion">
     <div class="col-12 ">
       <div class="input-group mb-3">
-      <input @input="questionChange" class ="questionInput form-control" v-model="question" type="text" placeholder="Введите вопрос" >
+      <input @input="questionChange" class ="questionInput form-control" v-model="question" type="text" placeholder="Введите вопрос" required >
       <!-- <div class="input-group-append">
         <button class="btn inputButton" type="button">Добавить</button>
       </div> -->
@@ -36,7 +36,6 @@ export default {
 </script>
 <style scoped>
 .questionInput {
-  font-family: HelveticaRegular,Arial,Garuda,sans-serif;
   outline: none;
   font-size: 22px;
   border: none;
@@ -58,11 +57,11 @@ export default {
 }
 .new-button {
     display: inline-block;
-    padding: 8px 12px;
+    padding: 4px 9px;
     cursor: pointer;
     border-radius: 4px;
     background-color: #1E9FDF;
-    font-size: 16px;
+    font-size: 14px;
     color: #fff;
 }
 .inputButton {
@@ -78,9 +77,9 @@ export default {
 input[type="file"] {
   position: absolute;
   z-index: -1;
-  top: 6px;
-  left: 19px;
-  font-size: 15px;
+  top: 4px;
+  left: 30px;
+  font-size: 11px;
   color: rgb(104, 104, 104);
 }
 .button-wrap {
