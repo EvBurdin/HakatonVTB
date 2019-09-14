@@ -1,14 +1,18 @@
 <template>
   <div>
-    <input type="text" />
-    <form>
-      <input type="file" name="" id="">
-      <button>Add file</button>
-    </form>
+      <input v-model="question" type="text" placeholder="ввеите вопрос" />
+      <input ref="file" type="file" multiple name id />
   </div>
 </template>
 <script>
-export default {};
+export default {
+  name: 'pollFieldAdd',
+  data() {
+    return {
+      question: '',
+    }
+  },
+};
 </script>
 <style scoped>
 </style>

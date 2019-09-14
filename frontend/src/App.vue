@@ -23,7 +23,7 @@ export default {
           })
         .catch(err => {
           console.log('User unavtoraised')
-          this.$router.replace('/login').catch(e=>{})
+          // this.$router.replace('/login').catch(e=>{})
           });
     },
   },

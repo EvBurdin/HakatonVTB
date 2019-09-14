@@ -1,12 +1,12 @@
 <template>
   <div>
-      <testedComponent />
+      <pollFieldAdd />
   </div>
 </template>
 <script>
-import testedComponent from '@/components/pollFieldadd.vue'
+import pollFieldAdd from '@/components/pollFieldadd.vue'
 export default {
-
+    components: {pollFieldAdd},
 };
 </script>
 <style scoped>
