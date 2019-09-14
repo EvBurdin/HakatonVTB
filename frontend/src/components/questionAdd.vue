@@ -9,8 +9,8 @@
 </div>
     </div>
   <div class="col-6">
-    <input @change="filesChange" ref="file" type="file" class="" id="my-file" multiple>
-    <label tabindex="0" for="my-file" class="new-button">Выбрать файл</label>
+    <input @change="filesChange" ref="file" type="file" class="" :id="questionId" multiple >
+    <label tabindex="0" :for="questionId" class="new-button">Выбрать файл</label>
   </div>
 
   </div>
@@ -29,7 +29,7 @@ export default {
       this.$emit ('questionChanged', {questionId:this.questionId,question:this.question})
     },
     filesChange() {
-      this.$emit ('filesChanged', {questionId:this.questionId, files:this.$refs.file.value})
+      this.$emit ('filesChanged', {questionId:this.questionId, files:this.$refs.file})
     }
   }
 };
