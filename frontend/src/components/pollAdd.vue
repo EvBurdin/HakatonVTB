@@ -35,14 +35,14 @@
             <input class="findingUser w-100" v-model="findingUser" placeholder="Добавить участников" type="text" />
             <ul id="findUser">
                 <userInList
-                  @userSelected="agreedUsers.push($event)"
+                  @userSelected="addToAgree($event)"
                   :key="index"
                   v-for="(user,index) in filtredUsers"
                   :user="user"
                 />
               </ul>
               <ul>
-                <li :key="index" v-for="(user,index) in agreedUsers">{{user.name}}</li>
+                <li :key="index" v-for="(user,index) in agreedUsers">{{user.firstName}} {{user.lasttName}}</li>
               </ul>
               <button class="submitButton inputButton btn">Сохранить</button>
           </div>
@@ -64,7 +64,12 @@ export default {
     filtredUsers: function() {
       let users = this.users;
       if (this.findingUser) {
-        let filtredUsers = users.filter(user => ~user.name.indexOf(this.findingUser));
+        let filtredUsers = users.filter(user => {
+          console.log()
+          const fisrtNameMatch=~user.firstName.toLowerCase().indexOf(this.findingUser.toLowerCase())
+          const lastNameMatch=~user.lastName.toLowerCase().indexOf(this.findingUser.toLowerCase())
+          return (fisrtNameMatch||lastNameMatch)
+        });
         return filtredUsers;
       } else {
         return [];
@@ -99,6 +104,11 @@ export default {
     addQuestion() {
       this.questions.push({ question: '', files: '' });
     },
+    addToAgree(user){
+      if(!this.agreedUsers.includes(user)){
+        this.agreedUsers.push(user)
+      }
+    },
     async addPoll() {
       let poll = new FormData();
       const questions = this.questions;
@@ -107,10 +117,11 @@ export default {
         let question = { question: '', files: [] };
         question.question = el.question;
 
-
-        for (let i=0;i< el.files.files.length;i++) {
-          question.files.push(el.files.files[i].name);
-          poll.append(`${index}#${el.files.files[i].name}`, el.files.files[i]);
+        if (el.files.files) {
+          for (let i = 0; i < el.files.files.length; i++) {
+            question.files.push(el.files.files[i].name);
+            poll.append(`${index}#${el.files.files[i].name}`, el.files.files[i]);
+          }
         }
         questionsList.push(question);
       });
@@ -119,13 +130,14 @@ export default {
         expireDate: this.expiredDate,
         agreedUsers: this.agreedUsers,
         title: this.title,
+        creatorId: this.$store.state.curentUser._id
       };
       console.log(data);
-      data=JSON.stringify(data)
+      data = JSON.stringify(data);
       console.log(data);
 
       poll.append('data', data);
-      axios.post('/api/addPool', poll, { withCredentials: true });
+      axios.post('/api/addPoll', poll, { withCredentials: true });
     },
     titleChange() {
       this.$emit ('titleChanged', {title:this.title})
