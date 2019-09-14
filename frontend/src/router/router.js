@@ -1,9 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from '../components/Home';
 import registration from '../components/registration';
 import login from '../components/login';
-import secret from '../components/gallery';
+import test from '../components/test';
 
 Vue.use(Router);
 
@@ -11,8 +10,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: Home,
+      name: 'test',
+      component: test,
     },
     {
       path: '/reg',
@@ -23,11 +22,6 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: login,
-    },
-    {
-      path: '/gallery',
-      name: 'gallery',
-      component: secret,
     },
   ],
   mode: 'history',
