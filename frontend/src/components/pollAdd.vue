@@ -96,7 +96,7 @@ export default {
       console.log(data);
       
       poll.append('data', data);
-      axios.post('/api/addPool', poll, { withCredentials: true });
+      axios.post('/api/addPoll', poll, { withCredentials: true });
     },
   },
 };
