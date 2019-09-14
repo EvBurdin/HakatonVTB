@@ -16,10 +16,7 @@
     "vue": "^2.5.2",
     "vue-ctk-date-time-picker": "^2.2.0",
     "vue-router": "^3.0.1",
-<<<<<<< HEAD
     "vuejs-datetimepicker": "^1.1.12",
-=======
->>>>>>> 293efd5209581d1569e792ed68ff36ba4e24f25b
     "vuex": "^3.1.1"
   },
   "devDependencies": {
