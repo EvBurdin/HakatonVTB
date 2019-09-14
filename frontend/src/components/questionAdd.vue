@@ -2,7 +2,7 @@
   <div class="row newQuestion">
     <div class="col-12 ">
       <div class="input-group mb-3">
-      <input @input="questionChange" class ="questionInput form-control" v-model="question" type="text" placeholder="Введите вопрос" >
+      <input @input="questionChange" class ="questionInput form-control" v-model="question" type="text" placeholder="Введите вопрос" required >
       <!-- <div class="input-group-append">
         <button class="btn inputButton" type="button">Добавить</button>
       </div> -->

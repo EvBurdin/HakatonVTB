@@ -98,7 +98,7 @@ export default {
       });
       let data = {
         questions: questionsList,
-        expireDate: this.expiredDate,
+        expiredDate: this.expiredDate,
         agreedUsers: this.agreedUsers,
         title: this.title,
         creatorId: this.$store.state.curentUser._id
