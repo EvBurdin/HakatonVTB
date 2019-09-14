@@ -4,7 +4,7 @@ const fs = require('fs');
 const sharp = require('sharp');
 const User = require('../models/User');
 const auth = require('./auth');
-const Poll = require('../models/Poll'); 
+const Poll = require('../models/Poll');
 const Question = require('../models/Question');
 
 const router = express.Router();
@@ -51,12 +51,12 @@ router.get('/getusers', auth, async (req, res) => {
   res.json(users);
 });
 router.get('/userpolls/:_id', auth, async (req, res) => {
-  const userPolls = await Poll.find({users:{usersId:req.params._id}},
-    {users:{dateCreated: {$lte:dateExpired}}});
+  const userPolls = await Poll.find({ users: { usersId: req.params._id } },
+    { users: { dateCreated: { $lte: dateExpired } } });
   res.json(userPolls);
 });
 router.get('/getpoll/:_id', auth, async (req, res) => {
-  const poll = await Poll.find({_id:req.params._id})
+  const poll = await Poll.find({ _id: req.params._id })
   res.json(poll);
 });
 router.post('/addPoll', auth, async (req, res) => {
@@ -67,6 +67,7 @@ router.post('/addPoll', auth, async (req, res) => {
     const question = new Question({
       questionName: question[i].questionName,
       filesPath: question[i].filesPath,
+      answer: question[i].answer,
     });
     await question.save();
     FinalARR.push(question._id);
