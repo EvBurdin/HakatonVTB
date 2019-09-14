@@ -2,40 +2,35 @@
 <template>
   <div >
     <div v-for="(item, index) in poll" v-bind:key="index">
-      <vopros v-bind:data="{
-        text:'item.questionName',
-        pollId:'item.questionName',
-        questionId:'item.questionName',
-        allcomments:'',
-        }"></vopros>
+      <question v-bind:data="{
+        text:'item.questions.questionName',
+        pollId:'item._id',
+        questionId:'item.questions._id',
+        allcomments:'item.questions.answer',
+        }"></question>
     </div>
   </div>
 </template>
 
 <script>
-import vopros from './vopros'
+import question from './question'
 import axios from 'axios';
 export default {
   name: 'opros',
   components: {
-    'vopros': vopros
+    'question': question
   },
   data() {
     return { 
-      poll:[{
-        questionName:'samd'
-      },
-      {
-        questionName:'sjadhkasd'
-      }],
-      uploadComplit: false };
+      poll:'',
+      };
   },
   mounted(){
-    // getpoll()
+    getpoll()
   },
   methods: {
     getpoll(){
-      axios.get('/api/getpoll')
+      axios.get(`/api/getpoll?id=${this.$route.params.id}`)
       .then(response =>(this.poll = response))
     },
   },

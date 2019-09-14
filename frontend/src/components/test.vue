@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import pollFieldAdd from '@/components/opros.vue'
+import pollFieldAdd from '@/components/poll.vue'
 export default {
     components: {pollAdd},
 };

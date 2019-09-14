@@ -2,14 +2,20 @@
 <template>
   <div >
     <div>
+        <div>{{trueornot}}</div>
 <div>{{this.$attrs.data.text}}</div>
 <input type="text" v-model="comment">
 <div class="" @click.prevent="vote(true)">Yes</div>
 <div class="" @click.prevent="vote(false)">No</div>
     </div>
   <div v-for="(item,index) in allcomments" v-bind:key="index">
-      <div>{{item.comment.creator}}</div>
-      <div>{{item.comment.text}}</div>
+        <div>
+        {{item.comment.userId.firstName+" "}} 
+        {{item.comment.userId.lastName}}
+        </div>
+        <div>{{item.comment}}</div>
+        <div v-if="item.statys">{{item.statys}}</div>
+        <div v-if="!item.statys">{{item.statys}}</div>
   </div>
   </div>
 </template>
@@ -23,18 +29,22 @@ export default {
     return { 
         comment:'',
         allcomments:this.$attrs.allcomments,
-      poll:[{
-        questionName:'samd'
-      },
-      {
-        questionName:'sjadhkasd'
-      }],
-      uploadComplit: false };
+        poll:'',
+    }
   },
   mounted(){
     
   },
   methods: {
+      trueornot(){
+        let trueAnswer = 0;
+        let falseAnswer = 0
+        for (let i = 0; i < allcomments.length; i++) {
+            if(allcomments.status === true){ trueAnswer++}
+            else{falseAnswer++}
+        }
+        return `+${trueAnswer}/-${falseAnswer}`
+      },
     getpoll(){
       axios.get('/api/getpoll')
       .then(response =>(this.poll = response))
