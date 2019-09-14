@@ -36,32 +36,30 @@ router.post('/logout', auth, (req, res) => {
   res.send(true);
 });
 
-
-router.post('/user', auth, (req, res) => {
+router.get('/user', auth, async (req, res) => {
   console.log(`User ${req.session.passport.user} loged in`);
-  res.send(req.session.passport.user);
+  const user = await User.findOne({ username: req.session.passport.user });
+  res.send(user);
 });
-router.post('/secret', auth, async (req, res) => {
-  const { user } = req.session.passport;
-  const images = await Image.find({ username: user });
-  res.json(images);
-});
-router.get('/getusers', auth, async (req, res) => {
+
+router.get('/users', auth, async (req, res) => {
   const users = await User.find();
   res.json(users);
 });
 router.get('/userpolls/:_id', auth, async (req, res) => {
-  const userPolls = await Poll.find({ users: { usersId: req.params._id } },
-    { users: { dateCreated: { $lte: dateExpired } } });
+  const userPolls = await Poll.find(
+    { users: { usersId: req.params._id } },
+    { users: { dateCreated: { $lte: dateExpired } } },
+  );
   res.json(userPolls);
 });
 router.get('/getpoll/:_id', auth, async (req, res) => {
-  const poll = await Poll.find({ _id: req.params._id }).
+  const poll = await Poll.find({ _id: req.params._id })
     // populate('questionId',
     // populate('userId')); // возможно тут populate:{path:'userId}
-    populate({
+    .populate({
       path: 'questionId',
-      populate: { path: 'userId' }
+      populate: { path: 'userId' },
     });
   res.json(poll);
 });
@@ -132,8 +130,6 @@ router.post('/addPoll', async (req, res) => {
   }
 
 });
-
-
 
 // пример реализации загрузки файлов
 router.post('/images', auth, async (req, res) => {
