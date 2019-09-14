@@ -4,6 +4,7 @@ const fs = require('fs');
 const sharp = require('sharp');
 const User = require('../models/User');
 const auth = require('./auth');
+const Poll = require('../models/Poll');
 
 const router = express.Router();
 

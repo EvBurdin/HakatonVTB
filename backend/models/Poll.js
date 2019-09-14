@@ -23,4 +23,4 @@ const PollSchema = new db.Schema({
 });
 
 UserSchema.plugin(passportLocalMongoose);
-module.exports = db.model('User', PollSchema);
+module.exports = db.model('Poll', PollSchema);
