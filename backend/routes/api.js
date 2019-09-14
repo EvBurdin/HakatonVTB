@@ -56,7 +56,13 @@ router.get('/userpolls/:_id', auth, async (req, res) => {
   res.json(userPolls);
 });
 router.get('/getpoll/:_id', auth, async (req, res) => {
-  const poll = await Poll.find({ _id: req.params._id })
+  const poll = await Poll.find({ _id: req.params._id }).
+  // populate('questionId',
+  // populate('userId')); // возможно тут populate:{path:'userId}
+  populate({
+    path:'questionId',
+    populate:{path:'userId'}
+  });
   res.json(poll);
 });
 
