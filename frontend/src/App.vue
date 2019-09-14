@@ -14,21 +14,9 @@ export default {
   name: 'App',
   components: { navBar },
   methods: {
-    async userData() {
-      axios
-        .post('/api/user/', {}, { withCredentials: true })
-        .then(res => {
-          this.$store.commit('SET_USER', res.data)
-          this.$router.replace('/').catch(e=>{})
-          })
-        .catch(err => {
-          console.log('User unavtoraised')
-          // this.$router.replace('/login').catch(e=>{})
-          });
-    },
+
   },
   mounted() {
-    this.userData();
     this.$store.dispatch("getUsers")
     this.$store.dispatch("getCurrentUser")
   },
