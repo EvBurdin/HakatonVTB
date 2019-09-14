@@ -1,15 +1,15 @@
 <template>
- <div class="row newQuestion">
+  <div class="row newQuestion">
     <div class="col-12 ">
       <div class="input-group mb-3">
-      <input class ="questionInput form-control" v-model="question" type="text" placeholder="Введите вопрос" >
-      <div class="input-group-append">
+      <input @input="questionChange" class ="questionInput form-control" v-model="question" type="text" placeholder="Введите вопрос" >
+      <!-- <div class="input-group-append">
         <button class="btn inputButton" type="button">Добавить</button>
-      </div>
+      </div> -->
 </div>
     </div>
   <div class="col-6">
-    <input type="file" class="" id="my-file" multiple>
+    <input @change="filesChange" ref="file" type="file" class="" id="my-file" multiple>
     <label tabindex="0" for="my-file" class="new-button">Выбрать файл</label>
   </div>
 
@@ -18,11 +18,20 @@
 <script>
 export default {
   name: 'pollFieldAdd',
+  props: ['questionId'],
   data() {
     return {
       question: '',
-    }
+    };
   },
+  methods: {
+    questionChange() {
+      this.$emit ('questionChanged', {questionId:this.questionId,question:this.question})
+    },
+    filesChange() {
+      this.$emit ('filesChanged', {questionId:this.questionId, files:this.$refs.file.value})
+    }
+  }
 };
 </script>
 <style scoped>

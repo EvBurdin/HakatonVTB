@@ -6,12 +6,11 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    curentUser: '', // The TV inventory
+    curentUser: '',
+    users: [{ name: 'qwe' }, { name: 'asd' }, { name: 'qaz' }],
   },
 
-  getters: {
-    // Here we will create a getter
-  },
+  getters: {},
 
   mutations: {
     SET_USER: (state, data) => {
