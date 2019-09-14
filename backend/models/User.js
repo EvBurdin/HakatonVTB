@@ -7,7 +7,7 @@ const UserSchema = new db.Schema({
   username: String,
   firstName: { type: String, default: faker.name.firstName() },
   lastName: { type: String, default: faker.name.lastName() },
-  position: { type: String, default: faker.company.position() },
+  position: { type: String, default: 'director' },
   company: { type: String, default: faker.company.companyName() },
   
 });

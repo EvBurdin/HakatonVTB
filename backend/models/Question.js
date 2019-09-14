@@ -6,7 +6,7 @@ const QuestionSchema = new db.Schema({
   filesPath: String,
   answer: [{
     userId: {
-      type: db.Schema.Types.ObjectId, ref: 'User'
+      type: db.Schema.Types.ObjectId, ref: 'User' // наполнить весь.
     },
     status: Boolean,
     comment: String,
@@ -15,5 +15,5 @@ const QuestionSchema = new db.Schema({
 
 });
 
-UserSchema.plugin(passportLocalMongoose);
+
 module.exports = db.model('Question', QuestionSchema);
