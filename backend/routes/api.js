@@ -45,6 +45,40 @@ router.post('/secret', auth, async (req, res) => {
   const images = await Image.find({ username: user });
   res.json(images);
 });
+router.get('/getusers', auth, async (req, res) => {
+  const users = await User.find();
+  res.json(users);
+});
+router.get('/userpolls/:_id', auth, async (req, res) => {
+  const userPolls = await Poll.find({users:{usersId:req.params._id}},
+    {users:{dateCreated: {$lte:dateExpired}}});
+  res.json(userPolls);
+});
+router.post('/addPoll', auth, async (req, res) => {
+  const { pollName, questions, users, creator, dateCreated, dateExpired
+  } = req.body;
+  const questionsAtPoll = [];
+  for (let i = 0; i < questions.length; i++) {
+    const question = new Question({
+      questionName: question[i].questionName,
+      filesPath: question[i].filesPath,
+    });
+    await question.save();
+    FinalARR.push(question._id);
+  }
+  const poll = new Poll({
+    pollName,
+    questions: questionsAtPoll,
+    users,
+    creator,
+    dateCreated,
+    dateExpired,
+  });
+  poll.save();
+});
+
+
+
 // пример реализации загрузки файлов
 router.post('/images', auth, async (req, res) => {
   const data = JSON.parse(req.body.data);
