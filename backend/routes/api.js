@@ -67,27 +67,29 @@ router.get('/getpoll/:_id', auth, async (req, res) => {
 });
 
 router.post('/addPoll', auth, async (req, res) => {
-  const { pollName, questions, users, creator, dateCreated, dateExpired
-  } = req.body;
-  const questionsAtPoll = [];
-  for (let i = 0; i < questions.length; i++) {
-    const question = new Question({
-      questionName: question[i].questionName,
-      filesPath: question[i].filesPath,
-      answer: question[i].answer,
-    });
-    await question.save();
-    FinalARR.push(question._id);
-  }
-  const poll = new Poll({
-    pollName,
-    questions: questionsAtPoll,
-    users,
-    creator,
-    dateCreated,
-    dateExpired,
-  });
-  poll.save();
+  console.log(req.body);
+  
+  // const { pollName, questions, users, creator, dateCreated, dateExpired
+  // } = req.body;
+  // const questionsAtPoll = [];
+  // for (let i = 0; i < questions.length; i++) {
+  //   const question = new Question({
+  //     questionName: question[i].questionName,
+  //     filesPath: question[i].filesPath,
+  //     answer: question[i].answer,
+  //   });
+  //   await question.save();
+  //   FinalARR.push(question._id);
+  // }
+  // const poll = new Poll({
+  //   pollName,
+  //   questions: questionsAtPoll,
+  //   users,
+  //   creator,
+  //   dateCreated,
+  //   dateExpired,
+  // });
+  // poll.save();
 });
 
 
