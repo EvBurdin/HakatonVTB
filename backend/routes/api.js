@@ -48,9 +48,9 @@ router.get('/users', auth, async (req, res) => {
 });
 router.get('/userpolls/:_id', auth, async (req, res) => {
   const userPolls = await Poll.find(
-    { users: { usersId: req.params._id } },
-    { users: { dateCreated: { $lte: dateExpired } } },
-  );
+    { users: { usersId: req.params._id } });
+    // { users: { dateCreated: { $lte: dateExpired } } },
+  // );
   res.json(userPolls);
 });
 router.get('/getpoll/:_id', auth, async (req, res) => {
@@ -66,69 +66,89 @@ router.get('/getpoll/:_id', auth, async (req, res) => {
 
 router.post('/addPoll', async (req, res) => {
   const data = JSON.parse(req.body.data);
+  const poll = {};
+  poll.pollName = data.title;
+  poll.creatorId = data.creatorId;
+  poll.dateExpired = data.expiredDate;
+  poll.questions = [];
+  poll.users = data.agreedUsers.map((el) => { return {userId: el._id, status: true}});
+  for (let i = 0; i < data.questions.length; i++) {
+    const question = {};
+    question.filesPath = [];
+    question.answer = [];
+    question.question = data.questions[i].question;
+    for (let j = 0; j < data.questions[i].files.length; j++) {
+      question.filesPath.push(`/pols/${data.title}/${data.questions[i].question}/${data.questions[i].files[j]}`);
+      const file = req.files[`${i}#${data.questions[i].files[j]}`];
+      file.mv(`./backend/public/pols/${data.title}/${data.questions[i].question}/${data.questions[i].files[j]}`);
+    }
+    const newQuestion = new Question(question);
+    poll.questions.push(newQuestion._id);
+    await newQuestion.save();
+  }
+  const newPoll = new Poll(poll);
+  await newPoll.save();
+
   // console.log(req.files);
   // путь к файлу == название голосования/название вопроса/
-  // const title = data.title; //название голосования 
+  // const title = data.title; //название голосования
   // const massQuestion = data.questions[i]; // массив вопросов
   // const filePath = `/${title}/${massQuestion}`;
   // data.questions - массив вопросов
-  //data.questions[i]. for(let j = 0; j < data.agreedUsers.length ;j++) { let answer.push(data.questions[i].agreed[j]._id)}
+  // data.questions[i]. for(let j = 0; j < data.agreedUsers.length ;j++) { let answer.push(data.questions[i].agreed[j]._id)}
   // const allQuestionsAtPoll = [];
 
   // for (let i = 0; i < data.questions.length; i++) {
   //   console.log(`vopros [${i}] = `, data.questions[i].question);
   //   // allQuestionsAtPoll.push(data.questions[i].question);
 
+  // // }
+  // const questionSummary = [];
+  // // console.log(data.questions[0].question);
+  // // console.log(data);
+
+  // for (let i = 0; i < data.questions.length; i++) {
+  //   const question = new Question({
+  //     questionName: data.questions[i].question,
+  //     filesPath: `/${data.title}/${data.questions[i].question}`,
+  //     answer: [],
+  //   });
+  //   await question.save();
+  //   console.log(`[${i}] question = `, question, '/n');
+
+  //   questionSummary.push(question._id);
   // }
-  const questionSummary = [];
-  // console.log(data.questions[0].question);
-  // console.log(data);
-  
-  
-  for (let i = 0; i < data.questions.length; i++) {
-    const question = new Question({
-      questionName: data.questions[i].question,
-      filesPath: `/${data.title}/${data.questions[i].question}`,
-      answer: []
-    });
-    await question.save();
-    console.log(`[${i}] question = `,question,'/n');
-    
-    questionSummary.push(question._id);
-  }
-  // const questionId = [];
-  // for (let i = 0; i < questionSummary.length; i++) {
-  //   questionId.push(questionSummary[i])
+  // // const questionId = [];
+  // // for (let i = 0; i < questionSummary.length; i++) {
+  // //   questionId.push(questionSummary[i])
+  // // }
+
+  // const allUsers = [];
+  // const user = {
+  //   userId: [],
+  //   status: true,
+  // };
+  // for (let i = 0; i < data.agreedUsers.length; i++) {
+  //   const user = {
+  //     userId: data.agreedUsers[i]._id,
+  //     status: true,
+  //   };
+  //   allUsers.push(user);
   // }
+  // const poll = new Poll({
+  //   pollName: data.title,
+  //   questions: questionSummary,
+  //   users: allUsers,
+  // creator: data.creatorId,
+  // dateExpired: data.expiredDate,
+  // });
 
-  const allUsers = [];
-  const user = {
-    userId: [],
-    status: true,
-  }
-  for (let i = 0; i < data.agreedUsers.length; i++) {
-    const user = {
-      userId: data.agreedUsers[i]._id,
-      status: true,
-    }
-    allUsers.push(user);
-  }
-  const poll = new Poll({
-    pollName: data.title,
-    questions: questionSummary,
-    users: allUsers,
-    // creator: data.creatorId,
-    // dateExpired: data.expiredDate,
-  });
-
-  await poll.save();
-  console.log(poll);
-  let filesNames = Object.keys(req.files);
-  for(let i = 0 ; i < filesNames.length;i++){
-    const x = `/${data.title}/${data.questions[i].question}`;
-     await req.files[filesNames[i]].mv(`./backend/public${x}`);
-  }
-
+  // await poll.save();
+  // console.log(poll);
+  // const filesNames = Object.keys(req.files);
+  // for (let i = 0; i < filesNames.length; i++) {
+  //   const x = `/${data.title}/${data.questions[i].question}/${req.files[filesNames[i]].name}`;
+  //   await req.files[filesNames[i]].mv(`./public${x}`);
 });
 
 // пример реализации загрузки файлов
