@@ -85,7 +85,8 @@ router.post('/addPoll', async (req, res) => {
   // console.log(data);
   
   
-  for (let i = 0; i < data.questions.length; i++) {
+  for (
+    let i = 0; i < data.questions.length; i++) {
     const question = new Question({
       questionName: data.questions[i].question,
       filesPath: `/${data.title}/${data.questions[i].question}`,
