@@ -16,7 +16,7 @@
 import question from './question'
 import axios from 'axios';
 export default {
-  name: 'opros',
+  name: 'Poll',
   components: {
     'question': question
   },
@@ -26,7 +26,7 @@ export default {
       };
   },
   mounted(){
-    getpoll()
+    this.getpoll()
   },
   methods: {
     getpoll(){

@@ -1,5 +1,6 @@
 
 <template>
+<div>
   <div name="ne golosoval"> 
     <div v-for="(item, index) in noAnsweredPoll" v-bind:key="index">
       <router-link :to="{ name: 'Poll', params: {id:index._id} }" tag="div">
@@ -9,7 +10,7 @@
           <div>{{index}}</div><div>{{question.questionName}}</div>
       </div></router-link>
     </div>
-    
+
     <div v-for="(item, index) in AnsweredPoll" v-bind:key="index">
       <router-link :to="{ name: 'Poll', params: {id:index._id} }" tag="div">
       <div>{{item.pollName}}</div>
@@ -19,7 +20,7 @@
       </div>
       </router-link>
     </div>
-  </div>
+  </div></div>
 </template>
 
 <script>
@@ -29,25 +30,32 @@ export default {
   components: {
   },
   data() {
-    return { 
-      polls:'',
-      noAnsweredPoll:[],
-      answeredPoll:[],
-      };
+    return {
+    curentUser: this.user,
+    noAnsweredPoll:[],
+    answeredPoll:[],
+    };
+  },
+  computed:{
+      user: function(){
+          return this.$store.state.curentUser._id
+      }
   },
   mounted(){
-    getpolls()
+    // this.getpolls()
+    this.sort(this.polls)
   },
   methods: {
-      route(id){
-
-      },
     sort(arr){
+        console.log(this.polls)
         let count = 0;
-        for (let i = 0;i <= arr.length; i++) {
+        for (let i = 0;i < arr.length; i++) {
             for (let ii = 0; ii < arr[i].questions.length; ii++) {
-                if(arr[i].questions[ii].question.answer.userId===this.$state.curentUser._id){
+                console.log(arr[i].questions)
+                if(arr[i].questions[ii].question.answer.userId==this.curentUser){
                     count++
+                    console.log(count);
+                    
                 }
                 if(ii === arr[i].questions.length && count === arr[i].questions.length){
                     this.answeredPoll.push(arr[i])
@@ -61,8 +69,26 @@ export default {
 
     },
     getpolls(){
-      axios.get('/api/getpolls')
-      .then(response =>(sort(response)))
+      axios.get(`/api/getpolls?id=${this.user}`)
+      .then(response =>(response)=>{
+          let count = 0;
+        for (let i = 0;i <= arr.length; i++) {
+            for (let ii = 0; ii < arr[i].questions.length; ii++) {
+                console.log(arr[i].questions)
+                if(arr[i].questions[ii].question.answer.userId===this.curentUser){
+                    count++
+                }
+                if(ii === arr[i].questions.length && count === arr[i].questions.length){
+                    this.answeredPoll.push(arr[i])
+                }
+                if(ii === arr[i].questions.length && count !== arr[i].questions.length){
+                    this.noAnsweredPoll.push(arr[i])
+                }
+            }
+            count = 0
+        }
+      })
+      return true
     },
   },
 };
