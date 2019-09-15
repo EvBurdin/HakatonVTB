@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="row mt-5">
-      <form @submit.prevent="addPoll" class="col-9">
+      <form @submit.prevent="" class="col-9">
 
           <questionAdd class="col-11 questionAdd"
             @questionChanged="updateQuestion($event)"
@@ -153,7 +153,9 @@ export default {
       data = JSON.stringify(data);
 
       poll.append('data', data);
-      axios.post('/api/addPoll', poll, { withCredentials: true });
+      await axios.post('/api/addPoll', poll, { withCredentials: true });
+      await this.$store.dispatch("getUserPols")
+      this.$router.push('/')
     },
     titleChange() {
       this.$emit('titleChanged', { title: this.title });

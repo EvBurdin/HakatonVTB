@@ -113,6 +113,7 @@ router.post('/addPoll', async (req, res) => {
   }
   const newPoll = new Poll(poll);
   await newPoll.save();
+  res.json('true')
 
   // console.log(req.files);
   // путь к файлу == название голосования/название вопроса/
@@ -128,23 +129,23 @@ router.post('/addPoll', async (req, res) => {
   //   // allQuestionsAtPoll.push(data.questions[i].question);
 
   // }
-  const questionSummary = [];
-  // console.log(data.questions[0].question);
-  // console.log(data);
+  // const questionSummary = [];
+  // // console.log(data.questions[0].question);
+  // // console.log(data);
   
   
-  for (
-    let i = 0; i < data.questions.length; i++) {
-    const question = new Question({
-      questionName: data.questions[i].question,
-      filesPath: `/${data.title}/${data.questions[i].question}`,
-      answer: []
-    });
-    await question.save();
-    console.log(`[${i}] question = `,question,'/n');
+  // for (
+  //   let i = 0; i < data.questions.length; i++) {
+  //   const question = new Question({
+  //     questionName: data.questions[i].question,
+  //     filesPath: `/${data.title}/${data.questions[i].question}`,
+  //     answer: []
+  //   });
+  //   await question.save();
+  //   console.log(`[${i}] question = `,question,'/n');
     
-    questionSummary.push(question._id);
-  }
+  //   questionSummary.push(question._id);
+  // }
   // const questionId = [];
   // for (let i = 0; i < questionSummary.length; i++) {
   //   questionId.push(questionSummary[i])

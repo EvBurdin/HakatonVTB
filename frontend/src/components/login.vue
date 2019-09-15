@@ -1,5 +1,8 @@
 <template>
-  <form class=" mt-5 d-flex flex-row justify-content-center align-items-center w-50" @submit.prevent="login" >
+  <form
+    class="mt-5 d-flex flex-row justify-content-center align-items-center w-50"
+    @submit.prevent="login"
+  >
     <fieldset>
       <legend>Войти</legend>
       <div class="form-group">
@@ -38,21 +41,20 @@ export default {
     };
   },
   methods: {
-    login() {
-      axios
-        .post(
-          '/api/login/',
-          {
-            username: this.username,
-            password: this.password,
-          },
-          { withCredentials: true },
-        )
-        .then(res => {
-          this.$store.dispatch('getUsers');
-          this.$store.dispatch('getCurrentUser');
-          this.$router.replace('/');
-        });
+    async login() {
+      await axios.post(
+        '/api/login/',
+        {
+          username: this.username,
+          password: this.password,
+        },
+        { withCredentials: true },
+      );
+
+      this.$store.dispatch('getUsers');
+      await this.$store.dispatch('getCurrentUser');
+      this.$store.dispatch('getUserPols');
+      this.$router.replace('/');
     },
   },
 };
@@ -60,13 +62,12 @@ export default {
 
 <style >
 .btnSubmit {
-  background-color: #1E9FDF;
+  background-color: #1e9fdf;
   color: #fff;
   margin-top: 15px;
   outline: none;
-  }
-.btnSubmit:hover {
-  color: #fff
 }
-
+.btnSubmit:hover {
+  color: #fff;
+}
 </style>

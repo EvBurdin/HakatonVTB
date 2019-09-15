@@ -1,10 +1,10 @@
 <template>
   <div class="col-4">
             <div class="card border-info mb-3" style="max-width: 20rem;">
-              <div class="card-header">Активно до: 21.09.19 - 15.00</div>
+              <div class="card-header">Активно до: {{poll.dateExpired.toString().slice(0,10)}}</div>
               <div class="card-body bodyCard">
-                <h4 class="card-title">Заголовок опроса</h4>
-                <p class="card-text">1. Первый пункт <br>2. Второй классный пункт <br>3. Третий офигенный пункт офигенного опроса <br>4. И всякое остальное</p>
+                <h4 class="card-title">{{poll.pollName}}</h4>
+                <ol><li :key="index" v-for="(question,index) in poll.questions" class="card-text">{{question.questionId.question}}</li></ol>
               </div>
           </div>
       </div>
@@ -13,6 +13,7 @@
 <script>
 export default {
   name: 'pollCard',
+  props:['poll'],
 };
 </script>
 
