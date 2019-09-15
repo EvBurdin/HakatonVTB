@@ -1,5 +1,5 @@
 <template>
-  <div class="col-4">
+  <div class="col-12 col-md-6 col-sm-12 col-lg-4">
             <div class="card border-info mb-3" style="max-width: 20rem;">
               <div class="card-header">Активно до: {{poll.dateExpired.toString().slice(0,10)}}</div>
               <div class="card-body bodyCard">
@@ -26,6 +26,9 @@ export default {
 .bodyCard {
   max-height: 140px;
   overflow: hidden;
+  text-overflow: ellipsis;
   border-bottom: 15px solid white;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 </style>
