@@ -10,6 +10,7 @@ import polls from '../components/polls';
 Vue.use(Router);
 
 export default new Router({
+
   routes: [
     {
       path: '/',
@@ -32,5 +33,5 @@ export default new Router({
       component: pollAdd,
     },
   ],
-  mode: 'history',
+  mode: 'hash',
 });

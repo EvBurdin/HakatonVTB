@@ -59,7 +59,7 @@
   </div>
   </div>
     <div class="row mt-5">
-      <pollCard />
+      <pollCard :key="index" v-for="(poll, index) in polls" :poll="poll"/>
     </div>
   </div>
 </template>
@@ -69,6 +69,11 @@ import pollCard from '@/components/pollCard';
 export default {
   name: 'polls',
   components: { pollCard },
+  computed: {
+       polls: function() {
+        return this.$store.state.userPolls;
+    },
+  }
 };
 </script>
 
