@@ -2,7 +2,7 @@
   <div id="app" class="d-flex flex-column justify-content-center align-items-center w-100 container-fluid">
     <navBar />
     <transition  mode="out-in" name="fade">
-      <router-view class="container"/>
+      <router-view class="container pageContainer"/>
     </transition>
   </div>
 </template>
@@ -49,6 +49,10 @@ body {
 .container-fluid {
   padding-left: 0;
   padding-right: 0;
+}
+.pageContainer {
+  padding-left: 80px;
+  padding-right: 80px;
 }
 
 </style>

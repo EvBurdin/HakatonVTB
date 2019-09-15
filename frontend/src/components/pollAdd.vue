@@ -1,27 +1,23 @@
 <template>
   <div class="wrapper">
-    <div class="row justify-content-center">
-      <div class="col-6">
+    <div class="row ">
+      <div class="col-10">
         <input @input="titleChange" class ="titleInput" v-model="title" type="text" placeholder="Заголовок" >
-      </div>
-      <div class="col-3">
-
       </div>
     </div>
     <div class="row mt-5">
       <form @submit.prevent="addPoll" class="col-9">
 
-        <div class="row">
-          <questionAdd class="col-9"
+          <questionAdd class="col-11 questionAdd"
             @questionChanged="updateQuestion($event)"
             @filesChanged="updateFiles($event)"
+            @questionDeleted="removeQuestion($event)"
             :key="index"
             v-for="(question,index) in questions"
             :questionId="index"
           />
-        </div>
         <div class="row justify-content-center">
-          <div class="col-6">
+          <div class="col-3">
             <button class="btn inputButton addButton" @click="addQuestion">Добавить вопрос</button>
           </div>
         </div>
@@ -29,7 +25,7 @@
       <div class="col-3">
       <div class="container">
         <div class="row">
-          <div class='col-12'>
+          <div class='col-12 questionAdd' >
                   <VueCtkDateTimePicker class="mb-5" v-model="date"  minuteInterval="10"  format="YYYY-MM-DD HH:mm" label="Дата окончания" :noButton=true color="#1E9FDF" />
           </div>
       </div>
@@ -38,18 +34,20 @@
           <div class="col-12 ">
             <input class="findingUser w-100" v-model="findingUser" placeholder="Добавить участников" type="text" />
             <ul id="findUser">
-                <userInList
-                  @userSelected="addToAgree($event)"
-                  :key="index"
-                  v-for="(user,index) in filtredUsers"
-                  :user="user"
-                />
+                <div v-if="filtredUsers.length" class="listwrapper">
+                  <userInList class="userInList"
+                    @userSelected="addToAgree($event)"
+                    :key="index"
+                    v-for="(user,index) in filtredUsers"
+                    :user="user"
+                  />
+                </div>
               </ul>
               <ul class="userList">
-                <span class="users">Участники</span>
-                 <li  :key="index" v-for="(user,index) in agreedUsers"><i class="far fa-smile"></i>{{user.firstName}} {{user.lasttName}}</li>
+                <span class="users">Участники:</span>
+                 <li  :key="index" v-for="(user,index) in agreedUsers"><i class="fas fa-user smile"></i>{{user.firstName}} {{user.lasttName}}</li>
               </ul>
-              <div class="row justify-content-center">
+              <div class="row justify-content-end">
                 <button class="submitButton inputButton saveButton btn">Сохранить</button>
               </div>
           </div>
@@ -72,7 +70,6 @@ export default {
       let users = this.users;
       if (this.findingUser) {
         let filtredUsers = users.filter(user => {
-          console.log()
           const fisrtNameMatch=~user.firstName.toLowerCase().indexOf(this.findingUser.toLowerCase())
           const lastNameMatch=~user.lastName.toLowerCase().indexOf(this.findingUser.toLowerCase())
           return (fisrtNameMatch||lastNameMatch)
@@ -98,7 +95,6 @@ export default {
   },
   methods: {
     updateQuestion(e) {
-      console.log(e);
       let question = this.questions[e.questionId];
       question.question = e.question;
     },
@@ -106,15 +102,18 @@ export default {
       let question = this.questions[e.questionId];
 
       question.files = e.files;
-      console.log(question.files.files);
     },
     addQuestion() {
       this.questions.push({ question: '', files: '' });
     },
     addToAgree(user){
       if(!this.agreedUsers.includes(user)){
-        this.agreedUsers.push(user)
+        this.agreedUsers.push(user);
+        this.findingUser = ''
       }
+    },
+    removeQuestion(e) {
+      this.questions.splice(e.questionId, 1)
     },
     async addPoll() {
       let poll = new FormData();
@@ -139,9 +138,7 @@ export default {
         title: this.title,
         creatorId: this.$store.state.curentUser._id
       };
-      console.log(data);
       data = JSON.stringify(data);
-      console.log(data);
 
       poll.append('data', data);
       axios.post('/api/addPoll', poll, { withCredentials: true });
@@ -153,6 +150,10 @@ export default {
 };
 </script>
 <style scoped>
+input {
+  background-color: rgba(255, 255, 255, 0);
+}
+
 .inputButton {
   display: inline-block;
     padding: 6px 15px;
@@ -165,12 +166,14 @@ export default {
 }
 .titleInput {
   outline: none;
-  font-size: 28px;
+  font-size: 42px;
   border: none;
   border-bottom: 1px solid #c7c7c7;
-  margin-bottom: 10px;
-  margin-top: 30px;
+  margin-bottom: 60px;
+  margin-top: 60px;
   color: #2f3441;
+  padding: 6px 12px;
+  width: 100%;
 }
 .findingUser {
   outline: none;
@@ -211,32 +214,38 @@ button:active {
   margin: auto;
   margin-top: 70px;
   font-size: 14px;
-  box-shadow: none
+  box-shadow: none;
+  margin-bottom: 60px;
 }
 .users{
   font-size: 22px;
   border-bottom: 1px solid #000;
 }
 .saveButton {
- margin-top: 120px;
+ margin-top: 150px;
+ background-color: #FF0039;
+ font-weight: bold;
 }
-.wrapper {
+.questionAdd {
+  padding-left: 0;
+  padding-right: 0;
+}
+.findUser {
   position: relative;
 }
-.wrapper::after {
-  content: '';
-  z-index: -1;
-  top: 0;
-  right: -50px;
+.listwrapper {
   position: absolute;
-  height: 100vh;
-  width: 100vw;
-  background: repeating-linear-gradient(
-  45deg,
-  #1E9FDF,
-  #ffffff 1px,
-  #ffffff 40px
-);
-
+  top: 70px;
+  left: 0;
+  display: block;
+  height: 10px;
+  margin: 2px;
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+}
+.smile {
+  margin-right: 10px;
+  font-size: 22px;
 }
 </style>

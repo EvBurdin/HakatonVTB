@@ -2,20 +2,24 @@
   <nav class="align-self-stretch navbar navbar-expand-lg navbar-dark">
     <div class="offset-2  collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <router-link class="nav-link" to="/" @click="$event.target.classList.add('active')">
-            Главная
-            <span class="sr-only">(current)</span>
-          </router-link>
-        </li>
+
         <li v-if="!user" class="nav-item">
           <router-link class="nav-link" to="/reg">Регистрация</router-link>
         </li>
         <li v-if="!user" class="nav-item">
           <router-link class="nav-link" to="/login">Войти</router-link>
         </li>
+          <li v-if="user" class="nav-item">
+          <router-link class="nav-link main" to="/" @click="$event.target.classList.add('active')">
+            Голосования
+            <span class="sr-only">(current)</span>
+          </router-link>
+        </li>
         <li v-if="user" class="nav-item">
-          <router-link class="nav-link" to="/gallery">Галерея</router-link>
+          <router-link class="nav-link" to="/gallery">Завершенные</router-link>
+        </li>
+        <li v-if="user" class="nav-item">
+          <router-link class="nav-link" to="/new">Создать</router-link>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
@@ -57,5 +61,8 @@ nav {
 }
 .navbar-dark .navbar-nav .nav-link{
   color: #fff;
+}
+.main {
+  background-color: #FF0039;
 }
 </style>
