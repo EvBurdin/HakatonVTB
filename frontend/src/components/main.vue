@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      polls:'',
+      // polls:'',
     curentUser: this.user,
     noAnsweredPoll:[],
     answeredPoll:[],
@@ -40,6 +40,9 @@ export default {
   computed:{
       user: function(){
           return this.$store.state.curentUser._id
+      },
+      polls: function(){
+        return this.$store.state.userPolls
       }
   },
   mounted(){
@@ -72,11 +75,9 @@ export default {
       },
       
     
-    async getpolls(){
-      console.log(await this.curentUser);
-      
-      let thisuser = await this.curentUser
-      axios.get(`/api/userpolls/${thisuser}`)
+    async getpolls(){      
+      // let thisuser = await this.curentUser
+      axios.get(`/api/userpolls/${this.user}`)
       .then(response=>(this.polls = response))
       console.log('qqqqq')
     },

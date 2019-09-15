@@ -23,7 +23,7 @@ export default new Vuex.Store({
       state.users = data;
     },
     set_userPolls: (state, data) => {
-      state.userPols = data;
+      state.userPolls = data;
     },
   },
 
