@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
     <div class="row justify-content-center">
       <div class="col-6">
         <input @input="titleChange" class ="titleInput" v-model="title" type="text" placeholder="Заголовок" >
@@ -19,7 +19,11 @@
             v-for="(question,index) in questions"
             :questionId="index"
           />
-          <div class="btn inputButton" @click="addQuestion">Добавить</div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-6">
+            <button class="btn inputButton addButton" @click="addQuestion">Добавить вопрос</button>
+          </div>
         </div>
       </form>
       <div class="col-3">
@@ -41,10 +45,13 @@
                   :user="user"
                 />
               </ul>
-              <ul>
-                <li :key="index" v-for="(user,index) in agreedUsers">{{user.firstName}} {{user.lasttName}}</li>
+              <ul class="userList">
+                <span class="users">Участники</span>
+                 <li  :key="index" v-for="(user,index) in agreedUsers"><i class="far fa-smile"></i>{{user.firstName}} {{user.lasttName}}</li>
               </ul>
-              <button class="submitButton inputButton btn">Сохранить</button>
+              <div class="row justify-content-center">
+                <button class="submitButton inputButton saveButton btn">Сохранить</button>
+              </div>
           </div>
         </div>
       </div>
@@ -154,7 +161,7 @@ export default {
     background-color: #1E9FDF;
     font-size: 16px;
     color: #fff;
-    height: 46px;
+    height: 38px;
 }
 .titleInput {
   outline: none;
@@ -174,16 +181,62 @@ export default {
     margin-top: 30px;
     color: #2f3441;
 }
-
+ul {
+  padding-inline-start: 0;
+}
 #findUser li {
   cursor: pointer;
+
+}
+li {
+  list-style: none;
+  padding-top: 10px;
+  font-size: 15px;
+}
+.userList {
+  margin-top: 70px;
+}
+.userList li {
+  font-size: 20px;
 }
 .submitButton {
-  margin-top: 50px;
+  margin-top: 70px;
   outline: none;
   box-shadow: none;
 }
 button:active {
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.addButton {
+  margin: auto;
+  margin-top: 70px;
+  font-size: 14px;
+  box-shadow: none
+}
+.users{
+  font-size: 22px;
+  border-bottom: 1px solid #000;
+}
+.saveButton {
+ margin-top: 120px;
+}
+.wrapper {
+  position: relative;
+}
+.wrapper::after {
+  content: '';
+  z-index: -1;
+  top: 0;
+  right: -50px;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background: repeating-linear-gradient(
+  45deg,
+  #1E9FDF,
+  #ffffff 1px,
+  #ffffff 40px
+);
+
 }
 </style>
