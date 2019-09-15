@@ -55,4 +55,12 @@ body {
   padding-right: 80px;
   padding-bottom: 40px;
 }
+h4 {
+  font-size: 18px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.card-title {
+  margin-bottom: 5px;
+}
 </style>

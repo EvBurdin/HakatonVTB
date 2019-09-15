@@ -36,6 +36,9 @@ export default {
 .bodyCard {
   max-height: 140px;
   overflow: hidden;
+  text-overflow: ellipsis;
   border-bottom: 15px solid white;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 </style>

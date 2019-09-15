@@ -7,6 +7,7 @@ import test from '../components/test';
 import main from '../components/main';
 import polls from '../components/polls';
 import voteCard from '../components/voteCard';
+import completedPolls from '../components/completedPolls';
 
 Vue.use(Router);
 
@@ -37,6 +38,11 @@ export default new Router({
       name: 'vote',
       component: voteCard,
       props: true,
+    },
+    {
+      path: '/completed',
+      name: 'completedPolls',
+      component: completedPolls,
     },
   ],
   mode: 'hash',
