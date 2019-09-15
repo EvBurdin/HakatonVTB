@@ -1,7 +1,6 @@
 const db = require('mongoose');
 const passportLocalMongoose = require('passport-local-mongoose');
 
-
 const PollSchema = new db.Schema({
   pollName: String,
   questions: [{

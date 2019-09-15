@@ -46,33 +46,79 @@ router.get('/users', auth, async (req, res) => {
   const users = await User.find();
   res.json(users);
 });
-router.get('/userpolls/:_id', auth, async (req, res) => {
-  const userPolls = await Poll.find(
-    { users: { usersId: req.params._id } },
-    { users: { dateCreated: { $lte: dateExpired } } },
-  );
+router.get('/userpolls/:_id',  async (req, res) => {
+  // const userPolls = await Poll.find(
+  //   { users: { usersId: req.params._id } },
+  //   { users: { dateCreated: { $lte: dateExpired } } },
+  // );
+  let today = new Date();
+  // const userPolls = await Poll.find({ $and:[  {users: { $elemMatch: { userId: req.params._id } }},
+  //   {users: { dateExpired: { $lte: today } }}   ]   });
+  const userPolls = await Poll.find({  users: { $elemMatch: { userId: req.params._id } }})
+  .populate('questions.questionId').exec();
+    // console.log(userPolls);
+    
   res.json(userPolls);
 });
-router.get('/getpoll/:_id', auth, async (req, res) => {
+
+router.get('/getpoll/:_id',  async (req, res) => {
   const poll = await Poll.find({ _id: req.params._id })
     // populate('questionId',
     // populate('userId')); // возможно тут populate:{path:'userId}
     .populate({
-      path: 'questionId',
-      populate: { path: 'userId' },
-    });
+      path: 'questions.questionId',
+      populate: { path: 'answer.userId' }
+    }).exec();
+    // .populate('questions.questionId')
   res.json(poll);
+  // console.log(poll);
+  
 });
-
+router.get('/getpoll/:_id',  async (req, res) => {
+  const poll = await Poll.find({ _id: req.params._id })
+    // populate('questionId',
+    // populate('userId')); // возможно тут populate:{path:'userId}
+    .populate({
+      path: 'questions.questionId',
+      populate: { path: 'answer.userId' }
+    }).exec();
+    // .populate('questions.questionId')
+  res.json(poll);
+  // console.log(poll);
+  
+});
 router.post('/addPoll', async (req, res) => {
   const data = JSON.parse(req.body.data);
+  const poll = {};
+  poll.pollName = data.title;
+  poll.creatorId = data.creatorId;
+  poll.dateExpired = data.expiredDate;
+  poll.questions = [];
+  poll.users = data.agreedUsers.map((el) => { return {userId: el._id, status: true}});
+  for (let i = 0; i < data.questions.length; i++) {
+    const question = {};
+    question.filesPath = [];
+    question.answer = [];
+    question.question = data.questions[i].question;
+    for (let j = 0; j < data.questions[i].files.length; j++) {
+      question.filesPath.push(`/pols/${data.title}/${data.questions[i].question}/${data.questions[i].files[j]}`);
+      const file = req.files[`${i}#${data.questions[i].files[j]}`];
+      file.mv(`./backend/public/pols/${data.title}/${data.questions[i].question}/${data.questions[i].files[j]}`);
+    }
+    const newQuestion = new Question(question);
+    poll.questions.push({questionId:newQuestion._id});
+    await newQuestion.save();
+  }
+  const newPoll = new Poll(poll);
+  await newPoll.save();
+
   // console.log(req.files);
   // путь к файлу == название голосования/название вопроса/
-  // const title = data.title; //название голосования 
+  // const title = data.title; //название голосования
   // const massQuestion = data.questions[i]; // массив вопросов
   // const filePath = `/${title}/${massQuestion}`;
   // data.questions - массив вопросов
-  //data.questions[i]. for(let j = 0; j < data.agreedUsers.length ;j++) { let answer.push(data.questions[i].agreed[j]._id)}
+  // data.questions[i]. for(let j = 0; j < data.agreedUsers.length ;j++) { let answer.push(data.questions[i].agreed[j]._id)}
   // const allQuestionsAtPoll = [];
 
   // for (let i = 0; i < data.questions.length; i++) {
@@ -102,34 +148,48 @@ router.post('/addPoll', async (req, res) => {
   //   questionId.push(questionSummary[i])
   // }
 
-  const allUsers = [];
-  const user = {
-    userId: [],
-    status: true,
-  }
-  for (let i = 0; i < data.agreedUsers.length; i++) {
-    const user = {
-      userId: data.agreedUsers[i]._id,
-      status: true,
-    }
-    allUsers.push(user);
-  }
-  const poll = new Poll({
-    pollName: data.title,
-    questions: questionSummary,
-    users: allUsers,
-    // creator: data.creatorId,
-    // dateExpired: data.expiredDate,
-  });
+  // for (let i = 0; i < data.questions.length; i++) {
+  //   const question = new Question({
+  //     questionName: data.questions[i].question,
+  //     filesPath: `/${data.title}/${data.questions[i].question}`,
+  //     answer: [],
+  //   });
+  //   await question.save();
+  //   console.log(`[${i}] question = `, question, '/n');
 
-  await poll.save();
-  console.log(poll);
-  let filesNames = Object.keys(req.files);
-  for(let i = 0 ; i < filesNames.length;i++){
-    const x = `/${data.title}/${data.questions[i].question}`;
-     await req.files[filesNames[i]].mv(`./backend/public${x}`);
-  }
+  //   questionSummary.push(question._id);
+  // }
+  // // const questionId = [];
+  // // for (let i = 0; i < questionSummary.length; i++) {
+  // //   questionId.push(questionSummary[i])
+  // // }
 
+  // const allUsers = [];
+  // const user = {
+  //   userId: [],
+  //   status: true,
+  // };
+  // for (let i = 0; i < data.agreedUsers.length; i++) {
+  //   const user = {
+  //     userId: data.agreedUsers[i]._id,
+  //     status: true,
+  //   };
+  //   allUsers.push(user);
+  // }
+  // const poll = new Poll({
+  //   pollName: data.title,
+  //   questions: questionSummary,
+  //   users: allUsers,
+  // creator: data.creatorId,
+  // dateExpired: data.expiredDate,
+  // });
+
+  // await poll.save();
+  // console.log(poll);
+  // const filesNames = Object.keys(req.files);
+  // for (let i = 0; i < filesNames.length; i++) {
+  //   const x = `/${data.title}/${data.questions[i].question}/${req.files[filesNames[i]].name}`;
+  //   await req.files[filesNames[i]].mv(`./public${x}`);
 });
 
 // пример реализации загрузки файлов
