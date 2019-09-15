@@ -58,8 +58,8 @@
    <h2>Ожидают завершения</h2>
   </div>
   </div>
-    <div class="row mt-5">
-      <pollCard :key="index" v-for="(poll, index) in polls" :poll="poll"/>
+    <div class="row mt-5" style="display: relative" @click="$router.push('/vote')"   >
+      <pollCard   @click="$router.push('/vote')" style="display:absolute; z-index : 999" :key="index" class="asd" v-for="(poll, index) in polls" :poll="poll" />
     </div>
   </div>
 </template>

@@ -6,12 +6,11 @@ import pollAdd from '../components/pollAdd';
 import test from '../components/test';
 import main from '../components/main';
 import polls from '../components/polls';
-import voteCard from '../components/voteCard'
+import voteCard from '../components/voteCard';
 
 Vue.use(Router);
 
 export default new Router({
-
   routes: [
     {
       path: '/',
@@ -37,6 +36,7 @@ export default new Router({
       path: '/vote',
       name: 'vote',
       component: voteCard,
+      props: true,
     },
   ],
   mode: 'hash',
