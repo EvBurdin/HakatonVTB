@@ -12,7 +12,6 @@
     <input @change="filesChange" ref="file" type="file" class="" :id="questionId" multiple >
     <label tabindex="0" :for="questionId" class="new-button">Выбрать файл</label>
   </div>
-
   </div>
 </template>
 <script>
