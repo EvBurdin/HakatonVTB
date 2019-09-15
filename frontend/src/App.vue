@@ -25,12 +25,12 @@ export default {
       this.$store.dispatch("getUsers")
     } catch(e) {
       console.log(this.$store.state.curentUser._id)
-      
+
       if (!this.$store.state.curentUser._id) {
         this.$router.push('/login')
       }
     }
-    
+
   },
 };
 </script>
@@ -53,6 +53,6 @@ body {
 .pageContainer {
   padding-left: 80px;
   padding-right: 80px;
+  padding-bottom: 40px;
 }
-
 </style>

@@ -59,58 +59,16 @@
   </div>
   </div>
     <div class="row mt-5">
-      <div class="col-4">
-            <div class="card border-info mb-3" style="max-width: 20rem;">
-              <div class="card-header">Активно до: 21.09.19 - 15.00</div>
-              <div class="card-body bodyCard">
-                <h4 class="card-title">Заголовок опроса</h4>
-                <p class="card-text">1. Первый пункт <br>2. Второй классный пункт <br>3. Третий офигенный пункт офигенного опроса <br>4. И всякое остальное</p>
-              </div>
-          </div>
-      </div>
-      <div class="col-4">
-            <div class="card border-info mb-3" style="max-width: 20rem;">
-              <div class="card-header">Активно до: 21.09.19 - 15.00</div>
-              <div class="card-body bodyCard">
-                <h4 class="card-title">Заголовок опроса</h4>
-                <p class="card-text">1. Первый пункт <br>2. Второй классный пункт <br>3. Третий офигенный пункт офигенного опроса <br>4. И всякое остальное</p>
-              </div>
-          </div>
-      </div>
-      <div class="col-4">
-            <div class="card border-info mb-3" style="max-width: 20rem;">
-              <div class="card-header">Активно до: 21.09.19 - 15.00</div>
-              <div class="card-body bodyCard">
-                <h4 class="card-title">Заголовок опроса</h4>
-                <p class="card-text">1. Первый пункт <br>2. Второй классный пункт <br>3. Третий офигенный пункт офигенного опроса <br>4. И всякое остальное</p>
-              </div>
-          </div>
-      </div>
-      <div class="col-4">
-            <div class="card border-info mb-3" style="max-width: 20rem;">
-              <div class="card-header">Активно до: 21.09.19 - 15.00</div>
-              <div class="card-body bodyCard">
-                <h4 class="card-title">Заголовок опроса</h4>
-                <p class="card-text">1. Первый пункт <br>2. Второй классный пункт <br>3. Третий офигенный пункт офигенного опроса <br>4. И всякое остальное</p>
-              </div>
-          </div>
-      </div>
-      <div class="col-4">
-            <div class="card border-info mb-3" style="max-width: 20rem;">
-              <div class="card-header">Активно до: 21.09.19 - 15.00</div>
-              <div class="card-body bodyCard">
-                <h4 class="card-title">Заголовок опроса</h4>
-                <p class="card-text">1. Первый пункт <br>2. Второй классный пункт <br>3. Третий офигенный пункт офигенного опроса <br>4. И всякое остальное</p>
-              </div>
-          </div>
-      </div>
+      <pollCard />
     </div>
   </div>
 </template>
 
 <script>
+import pollCard from '@/components/pollCard';
 export default {
-  name: 'polls'
+  name: 'polls',
+  components: { pollCard },
 };
 </script>
 
@@ -122,14 +80,5 @@ export default {
 h2 {
   font-size: 42px;
   color: #2f3441
-}
-.border-info {
-    border-color: #1E9FDF!important;
-    border-radius: 3px;
-}
-.bodyCard {
-  max-height: 140px;
-  overflow: hidden;
-  border-bottom: 15px solid white;
 }
 </style>

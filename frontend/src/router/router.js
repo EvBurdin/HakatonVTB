@@ -5,14 +5,16 @@ import login from '../components/login';
 import pollAdd from '../components/pollAdd';
 import test from '../components/test';
 import main from '../components/main';
+import polls from '../components/polls';
+
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'test',
-      component: main,
+      name: 'polls',
+      component: polls,
     },
     {
       path: '/reg',
