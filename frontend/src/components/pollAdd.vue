@@ -42,7 +42,7 @@
                 />
               </ul>
               <ul>
-                <li :key="index" v-for="(user,index) in agreedUsers">{{user.firstName}} {{user.lasttName}}</li>
+                <li :key="index" v-for="(user,index) in agreedUsers">{{user.firstName}} {{user.lastName}}</li>
               </ul>
               <button class="submitButton inputButton btn">Сохранить</button>
           </div>
