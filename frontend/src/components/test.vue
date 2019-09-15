@@ -1,12 +1,12 @@
 <template>
   <div>
-      <pollAdd />
+      <polls />
   </div>
 </template>
 <script>
-import pollAdd from '@/components/pollAdd.vue'
+import pollAdd from '@/components/main.vue'
 export default {
-    components: {pollAdd},
+    components: {polls},
 };
 </script>
 <style scoped>

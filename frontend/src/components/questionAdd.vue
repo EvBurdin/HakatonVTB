@@ -1,8 +1,8 @@
 <template>
   <div class="row newQuestion">
     <div class="col-12 ">
-      <div class="input-group mb-3">
-      <input @input="questionChange" class ="questionInput form-control" v-model="question" type="text" placeholder="Введите вопрос" required >
+      <div class="input-group mb-1">
+      <input @input="questionChange" class ="questionInput form-control" v-model="question" type="text" placeholder="Вопрос" > <i @click="questionDelete" class="far fa-trash-alt trash"></i>
       <!-- <div class="input-group-append">
         <button class="btn inputButton" type="button">Добавить</button>
       </div> -->
@@ -29,6 +29,9 @@ export default {
     },
     filesChange() {
       this.$emit ('filesChanged', {questionId:this.questionId, files:this.$refs.file})
+    },
+    questionDelete() {
+      this.$emit ('questionDeleted', {questionId:this.questionId})
     }
   }
 };
@@ -36,15 +39,13 @@ export default {
 <style scoped>
 .questionInput {
   outline: none;
-  font-size: 22px;
+  font-size: 28px;
   border: none;
   border-bottom: 1px solid #c7c7c7;
   margin-bottom: 10px;
+  margin-top: 15px;
   color: #2f3441
 
-}
-.newQuestion {
-  margin: 10px;
 }
 .fileInput {
   position: absolute;
@@ -56,12 +57,12 @@ export default {
 }
 .new-button {
     display: inline-block;
-    padding: 4px 9px;
+    padding: 4px 12px;
     cursor: pointer;
     border-radius: 4px;
-    background-color: #1E9FDF;
+    background-color: #f2f2f2;
     font-size: 14px;
-    color: #fff;
+    color: #000;
 }
 .inputButton {
   display: inline-block;
@@ -77,7 +78,7 @@ input[type="file"] {
   position: absolute;
   z-index: -1;
   top: 4px;
-  left: 30px;
+  left: 35px;
   font-size: 11px;
   color: rgb(104, 104, 104);
 }
@@ -87,10 +88,19 @@ input[type="file"] {
 input {
    outline: none;
 }
+.form-control {
+  background-color: rgba(255, 255, 255, 0);
+}
 .form-control:focus {
   box-shadow: none
 }
 .btn {
   box-shadow: none;
+}
+.trash  {
+  margin-top: 32px;
+  margin-left: 20px;
+  font-size: 20px;
+  cursor: pointer;
 }
 </style>

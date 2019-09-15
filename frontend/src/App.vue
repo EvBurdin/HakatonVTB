@@ -2,7 +2,7 @@
   <div id="app" class="d-flex flex-column justify-content-center align-items-center w-100 container-fluid">
     <navBar />
     <transition  mode="out-in" name="fade">
-      <router-view class="container"/>
+      <router-view class="container pageContainer"/>
     </transition>
   </div>
 </template>
@@ -18,9 +18,18 @@ export default {
 
   },
   async mounted() {
+    try {
     await this.$store.dispatch("getCurrentUser")
     await this.$store.dispatch("getUserPols")
-    this.$store.dispatch("getUsers")
+    console.log(this.$store.state.curentUser._id)
+      this.$store.dispatch("getUsers")
+    } catch(e) {
+      console.log(this.$store.state.curentUser._id)
+      
+      if (!this.$store.state.curentUser._id) {
+        this.$router.push('/login')
+      }
+    }
     
   },
 };
@@ -40,6 +49,10 @@ body {
 .container-fluid {
   padding-left: 0;
   padding-right: 0;
+}
+.pageContainer {
+  padding-left: 80px;
+  padding-right: 80px;
 }
 
 </style>

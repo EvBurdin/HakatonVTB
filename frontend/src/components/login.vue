@@ -1,8 +1,5 @@
 <template>
-  <form
-    class="d-flex flex-row justify-content-center align-items-center w-50"
-    @submit.prevent="login"
-  >
+  <form class=" mt-5 d-flex flex-row justify-content-center align-items-center w-50" @submit.prevent="login" >
     <fieldset>
       <legend>Войти</legend>
       <div class="form-group">
@@ -26,7 +23,7 @@
           placeholder="Password"
         />
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btnSubmit">Submit</button>
     </fieldset>
   </form>
 </template>
@@ -62,4 +59,14 @@ export default {
 </script>
 
 <style >
+.btnSubmit {
+  background-color: #1E9FDF;
+  color: #fff;
+  margin-top: 15px;
+  outline: none;
+  }
+.btnSubmit:hover {
+  color: #fff
+}
+
 </style>
