@@ -1,17 +1,22 @@
 <template>
   <div class>
-    <div class="card border-info mb-3">
-      <div class="card-header">{{poll.pollName}}</div>
+    <div class="card border mb-3">
+      <h3 class="card-header">{{poll.pollName}}</h3>
       <div class="input-group">
 
       </div>
-      <div class="mb-5 " :key="index" v-for="(question,index) in poll.questions" >
-        <h4 class="card-title">{{question.questionId.question}}</h4>
-        <button class=" col-6 btn btn-success ">Голосовать "За"</button>
-        <button class=" col-6 btn btn-danger votebtn">Голосовать "Против"</button>
+      <div class="row">
+        <div class="mb-5 col-lg-12" :key="index" v-for="(question,index) in poll.questions" >
+      <h4 class="card-title">{{question.questionId.question}}</h4>
+
+      <div class="row justify-content-center"><button class=" col-5 btn btn-success votebtn">Голосовать "За"</button>
+      <button class=" col-5 btn btn-danger votebtn">Голосовать "Против"</button></div>
+      <div class="row justify-content-center">
         <input type="text" class="form-control w-50" placeholder="Оставьте комментарий" />
-        
       </div>
+
+
+      </div></div>
     </div>
     <div class="row"></div>
   </div>
@@ -36,5 +41,23 @@ export default {
 }
 .votebtn {
   cursor: pointer;
+  margin: 10px;
+  margin-bottom: 10px;
+}
+h4 {
+  margin-left: 50px;
+  margin: 25px;
+}
+.pageContainer {
+  margin-left: 70px;
+  margin-right: 70px;
+}
+.btn-success {
+  background-color: #1e9fdf;
+  border-color: #1e9fdf
+}
+.btn-danger {
+   background-color: #FF0039;
+  border-color: #FF0039;
 }
 </style>
