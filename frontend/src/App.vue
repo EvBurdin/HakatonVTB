@@ -10,15 +10,18 @@
 <script>
 import navBar from './components/navBar';
 import axios from 'axios';
+import loginVue from './components/login.vue';
 export default {
   name: 'App',
   components: { navBar },
   methods: {
 
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch("getCurrentUser")
+    await this.$store.dispatch("getUserPols")
     this.$store.dispatch("getUsers")
-    this.$store.dispatch("getCurrentUser")
+    
   },
 };
 </script>

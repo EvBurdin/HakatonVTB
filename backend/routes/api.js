@@ -87,7 +87,7 @@ router.post('/addPoll', async (req, res) => {
       file.mv(`./backend/public/pols/${data.title}/${data.questions[i].question}/${data.questions[i].files[j]}`);
     }
     const newQuestion = new Question(question);
-    poll.questions.push(newQuestion._id);
+    poll.questions.push({ questionId: newQuestion._id });
     await newQuestion.save();
   }
   const newPoll = new Poll(poll);

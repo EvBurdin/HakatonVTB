@@ -1,5 +1,8 @@
 <template>
-  <form class="d-flex flex-row justify-content-center align-items-center w-50" @submit.prevent="login" >
+  <form
+    class="d-flex flex-row justify-content-center align-items-center w-50"
+    @submit.prevent="login"
+  >
     <fieldset>
       <legend>Войти</legend>
       <div class="form-group">
@@ -49,7 +52,8 @@ export default {
           { withCredentials: true },
         )
         .then(res => {
-          this.$store.commit('SET_USER', res.data);
+          this.$store.dispatch('getUsers');
+          this.$store.dispatch('getCurrentUser');
           this.$router.replace('/');
         });
     },
