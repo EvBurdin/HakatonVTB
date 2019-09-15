@@ -23,16 +23,29 @@
         </div>
       </form>
       <div class="col-3">
-      <div class="container">
-        <div class="row">
-          <div class='col-12 questionAdd' >
-                  <VueCtkDateTimePicker class="mb-5" v-model="date"  minuteInterval="10"  format="YYYY-MM-DD HH:mm" label="Дата окончания" :noButton=true color="#1E9FDF" />
+        <div class="container">
+          <div class="row">
+            <div class="col-12 questionAdd">
+              <VueCtkDateTimePicker
+                class="mb-5"
+                v-model="expiredDate"
+                minuteInterval="10"
+                format="YYYY-MM-DD HH:mm"
+                label="Дата окончания"
+                :noButton="true"
+                color="#1E9FDF"
+              />
+            </div>
           </div>
-      </div>
-    </div>
+        </div>
         <div class="row justify-content-center">
-          <div class="col-12 ">
-            <input class="findingUser w-100" v-model="findingUser" placeholder="Добавить участников" type="text" />
+          <div class="col-12">
+            <input
+              class="findingUser w-100"
+              v-model="findingUser"
+              placeholder="Добавить участников"
+              type="text"
+            />
             <ul id="findUser">
                 <div v-if="filtredUsers.length" class="listwrapper">
                   <userInList class="userInList"
@@ -48,7 +61,7 @@
                  <li  :key="index" v-for="(user,index) in agreedUsers"><i class="fas fa-user smile"></i>{{user.firstName}} {{user.lasttName}}</li>
               </ul>
               <div class="row justify-content-end">
-                <button class="submitButton inputButton saveButton btn">Сохранить</button>
+                <button @click="addPoll" class="submitButton inputButton saveButton btn">Сохранить</button>
               </div>
           </div>
         </div>
@@ -90,7 +103,6 @@ export default {
       findingUser: '',
       agreedUsers: [],
       expiredDate: '',
-      date: ""
     };
   },
   methods: {
@@ -133,10 +145,10 @@ export default {
       });
       let data = {
         questions: questionsList,
-        expireDate: this.expiredDate,
+        expiredDate: this.expiredDate,
         agreedUsers: this.agreedUsers,
         title: this.title,
-        creatorId: this.$store.state.curentUser._id
+        creatorId: this.$store.state.curentUser._id,
       };
       data = JSON.stringify(data);
 
@@ -144,8 +156,12 @@ export default {
       axios.post('/api/addPoll', poll, { withCredentials: true });
     },
     titleChange() {
-      this.$emit ('titleChanged', {title:this.title})
-    }
+      this.$emit('titleChanged', { title: this.title });
+    },
+  },
+  mounted() {
+    this.$store.dispatch('getUsers');
+    this.$store.dispatch('getCurrentUser')
   },
 };
 </script>
@@ -156,13 +172,13 @@ input {
 
 .inputButton {
   display: inline-block;
-    padding: 6px 15px;
-    cursor: pointer;
-    border-radius: 4px;
-    background-color: #1E9FDF;
-    font-size: 16px;
-    color: #fff;
-    height: 38px;
+  padding: 6px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: #1e9fdf;
+  font-size: 16px;
+  color: #fff;
+  height: 38px;
 }
 .titleInput {
   outline: none;
@@ -178,18 +194,17 @@ input {
 .findingUser {
   outline: none;
   font-size: 22px;
-    border: none;
-    border-bottom: 1px solid #c7c7c7;
-    margin-bottom: 10px;
-    margin-top: 30px;
-    color: #2f3441;
+  border: none;
+  border-bottom: 1px solid #c7c7c7;
+  margin-bottom: 10px;
+  margin-top: 30px;
+  color: #2f3441;
 }
 ul {
   padding-inline-start: 0;
 }
 #findUser li {
   cursor: pointer;
-
 }
 li {
   list-style: none;
@@ -208,7 +223,7 @@ li {
   box-shadow: none;
 }
 button:active {
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 .addButton {
   margin: auto;
@@ -217,7 +232,7 @@ button:active {
   box-shadow: none;
   margin-bottom: 60px;
 }
-.users{
+.users {
   font-size: 22px;
   border-bottom: 1px solid #000;
 }

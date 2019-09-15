@@ -49,7 +49,8 @@ export default {
           { withCredentials: true },
         )
         .then(res => {
-          this.$store.commit('SET_USER', res.data);
+          this.$store.dispatch('getUsers');
+          this.$store.dispatch('getCurrentUser');
           this.$router.replace('/');
         });
     },
