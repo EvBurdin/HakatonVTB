@@ -46,11 +46,13 @@ router.get('/users', auth, async (req, res) => {
   const users = await User.find();
   res.json(users);
 });
-router.get('/userpolls/:_id', auth, async (req, res) => {
-  const userPolls = await Poll.find(
-    { users: { usersId: req.params._id } });
-    // { users: { dateCreated: { $lte: dateExpired } } },
-  // );
+router.get('/userpolls/:_id', async (req, res) => {
+  // const userPolls = await Poll.find({
+  //   $and: [{ users: { $elemMatch: { userID: req.params._id } } }, { users: { dateExpired: { $lte: new Date() } } }],
+  // });
+  const userPolls = await Poll.find({
+    $and: [{ users: { $elemMatch: { userId: req.params._id } } }, { dateExpired: { $gte: new Date() } }],
+  });
   res.json(userPolls);
 });
 router.get('/getpoll/:_id', auth, async (req, res) => {
@@ -71,14 +73,16 @@ router.post('/addPoll', async (req, res) => {
   poll.creatorId = data.creatorId;
   poll.dateExpired = data.expiredDate;
   poll.questions = [];
-  poll.users = data.agreedUsers.map((el) => { return {userId: el._id, status: true}});
+  poll.users = data.agreedUsers.map((el) => ({ userId: el._id, status: true }));
   for (let i = 0; i < data.questions.length; i++) {
     const question = {};
     question.filesPath = [];
     question.answer = [];
     question.question = data.questions[i].question;
     for (let j = 0; j < data.questions[i].files.length; j++) {
-      question.filesPath.push(`/pols/${data.title}/${data.questions[i].question}/${data.questions[i].files[j]}`);
+      question.filesPath.push(
+        encodeURI(`/pols/${data.title}/${data.questions[i].question}/${data.questions[i].files[j]}`),
+      );
       const file = req.files[`${i}#${data.questions[i].files[j]}`];
       file.mv(`./backend/public/pols/${data.title}/${data.questions[i].question}/${data.questions[i].files[j]}`);
     }
