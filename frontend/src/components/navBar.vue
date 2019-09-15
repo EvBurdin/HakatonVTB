@@ -16,7 +16,7 @@
           </router-link>
         </li>
         <li v-if="user" class="nav-item">
-          <router-link class="nav-link" to="/gallery">Завершенные</router-link>
+          <router-link class="nav-link" to="/completed">Завершенные</router-link>
         </li>
         <li v-if="user" class="nav-item">
           <router-link class="nav-link" to="/new">Создать</router-link>

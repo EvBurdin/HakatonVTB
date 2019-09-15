@@ -4,9 +4,9 @@
   </div>
 </template>
 <script>
-import polls from '@/components/polls.vue'
+import voiting from '@/components/voiting.vue'
 export default {
-    components: {polls},
+    components: {voiting},
 };
 </script>
 <style scoped>
