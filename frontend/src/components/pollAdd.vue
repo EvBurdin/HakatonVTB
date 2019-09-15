@@ -13,7 +13,7 @@
       <div class="col-3"></div>
     </div>
     <div class="row mt-5">
-      <form @submit.prevent="addPoll" class="col-9">
+      <form class="col-9">
         <div class="row">
           <questionAdd
             class="col-9"
@@ -36,7 +36,7 @@
             <div class="col-12">
               <VueCtkDateTimePicker
                 class="mb-5"
-                v-model="date"
+                v-model="expiredDate"
                 minuteInterval="10"
                 format="YYYY-MM-DD HH:mm"
                 label="Дата окончания"
@@ -66,11 +66,11 @@
               <span class="users">Участники</span>
               <li :key="index" v-for="(user,index) in agreedUsers">
                 <i class="far fa-smile"></i>
-                {{user.firstName}} {{user.lasttName}}
+                {{user.firstName}} {{user.lastName}}
               </li>
             </ul>
             <div class="row justify-content-center">
-              <button class="submitButton inputButton saveButton btn">Сохранить</button>
+              <button @click="addPoll" class="submitButton inputButton saveButton btn">Сохранить</button>
             </div>
           </div>
         </div>
@@ -113,7 +113,6 @@ export default {
       findingUser: '',
       agreedUsers: [],
       expiredDate: '',
-      date: '',
     };
   },
   methods: {
