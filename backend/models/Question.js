@@ -11,7 +11,7 @@ const QuestionSchema = new db.Schema({
     status: Boolean,
     comment: String,
   }],
-
+  
 
 });
 
