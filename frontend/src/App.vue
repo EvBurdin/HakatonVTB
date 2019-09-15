@@ -18,9 +18,18 @@ export default {
 
   },
   async mounted() {
+    try {
     await this.$store.dispatch("getCurrentUser")
     await this.$store.dispatch("getUserPols")
-    this.$store.dispatch("getUsers")
+    console.log(this.$store.state.curentUser._id)
+      this.$store.dispatch("getUsers")
+    } catch(e) {
+      console.log(this.$store.state.curentUser._id)
+      
+      if (!this.$store.state.curentUser._id) {
+        this.$router.push('/login')
+      }
+    }
     
   },
 };
