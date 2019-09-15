@@ -169,6 +169,10 @@ export default {
       this.$emit('titleChanged', { title: this.title });
     },
   },
+  mounted() {
+    this.$store.dispatch('getUsers');
+    this.$store.dispatch('getCurrentUser')
+  },
 };
 </script>
 <style scoped>
